@@ -19,8 +19,13 @@ add_action( 'admin_menu', 'liveform_init' );
 
 function admin_register_head() {
     $siteurl = get_option('siteurl');
-    $url = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/css/style.css';
-    echo "<link rel='stylesheet' type='text/css' href='$url' />\n";
+    $cssurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/css/style.css';
+    $angurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/js/angular.min.js';
+    $appjsurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/js/app.js';
+    echo "<link rel='stylesheet' type='text/css' href='$cssurl' />\n";
+
+    echo "<script type='text/javascript' src='$angurl'></script>\n";
+    echo "<script type='text/javascript' src='$appjsurl'></script>\n";
 }
 add_action('admin_head', 'admin_register_head');
 
@@ -29,32 +34,23 @@ add_action('admin_head', 'admin_register_head');
 function live_form_init(){
 ?>
 
-	<div class="wrap" id="liveform-wrap">
+	<div ng-app="appLiveForm" ng-controller="LiveForm_Ctrl" class="wrap" id="liveform-wrap">
 		<h2>Welcome To My Plugin</h2>
 		<br />
-		
-
-		<div id="dialog" title="Tab data">
-		  <form>
-		    <fieldset class="ui-helper-reset">
-		      <label for="tab_title">Title</label>
-		      <input type="text" name="tab_title" id="tab_title" value="Tab Title" class="ui-widget-content ui-corner-all">
-		      <label for="tab_content">Content</label>
-		      <textarea name="tab_content" id="tab_content" class="ui-widget-content ui-corner-all">Tab content</textarea>
-		    </fieldset>
-		  </form>
-		</div>
-		 
-		
-		 
+		<a id="add_tab" ng-click="addlfSlide()" href="javscript:">Add New</a>
 		<div id="tabs">
 		  <ul>
-		    <li><a href="#tabs-1">Slide 1</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li>
-		    <li style="float:right;"><a id="add_tab" href="javscript:">Add New</a></li>
+		    <!--<li><a href="#tabs-1">Slide 1</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li> -->		    
+		    <li data-ng-repeat="(key,val) in lf_slides" role="tab">
+		    	<a href="#tabs-{{key+1}}" class="ui-tabs-anchor" role="presentation">Slide {{key+1}}</a> <a class="ui-icon ui-icon-close" ng-click="removelfSlide({{key}})">Remove Tab</a>
+		    </li>
+
+		    
 		  </ul>
-		  <div id="tabs-1">
+		  <div data-ng-repeat="(key,val) in lf_slides" id="tabs-{{key+1}}"  >
 		    <p>
 		    	<form action="#">
+		    	<h1>{{key+1}}</h1>
 		    		<p>
 			            <label for="lf-layout"><strong>1. Select Slide Layout</strong></label><br/>
 			            <select style="with:500px;" class="lf-select" name="lf-layout" id="lf-layout">
@@ -115,96 +111,48 @@ function live_form_init(){
 		    	</form>
 		    </p>
 		  </div>
-		</div>
+		</div><!-- End : #tabs -->
+
+
+		<script id="templates/from.html" type="text/ng-template">
+	      
+	    </script>
 
 
 	</div>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
 
 jQuery.noConflict();
 (function( $ ) {
-  
 
 $(function() {
 
 	$( ".lf-select" ).selectmenu();
+	var tabs = $( "#tabs" ).tabs();
+	$( "#add_tab" ).button();
 
-    var tabContent = $('#tabs-1').html(),
-      	tabTemplate = "<li><a href='#{href}'>#{label}</a> <span class='ui-icon ui-icon-close' role='presentation'>Remove Tab</span></li>",
-      	tabCounter = 2;
- 
-    var tabs = $( "#tabs" ).tabs();
- 
-    // modal dialog init: custom buttons and a "close" callback resetting the form inside
-    var dialog = $( "#dialog" ).dialog({
-      autoOpen: false,
-      modal: true,
-      buttons: {
-        Add: function() {
-          addTab();
-          $( this ).dialog( "close" );
-        },
-        Cancel: function() {
-          $( this ).dialog( "close" );
-        }
-      },
-      close: function() {
-        form[ 0 ].reset();
-      }
-    });
- 
-    // addTab form: calls addTab function on submit and closes the dialog
-    var form = dialog.find( "form" ).submit(function( event ) {
-      addTab();
-      dialog.dialog( "close" );
-      event.preventDefault();
-    });
- 
-    // actual addTab function: adds new tab using the input from the form above
-    function addTab() {
-      var label = "Slide " + tabCounter,
-        id = "tabs-" + tabCounter,
-        li = $( tabTemplate.replace( /#\{href\}/g, "#" + id ).replace( /#\{label\}/g, label ) );
- 
-      tabs.find( ".ui-tabs-nav" ).append( li );
-      tabs.append( "<div id='" + id + "'>" + tabContent + "</div>" );
-      tabs.tabs( "refresh" );
-      tabCounter++;
-    }
- 
-    // addTab button: just opens the dialog
-    $( "#add_tab" ).button().click(function() {
-        //dialog.dialog( "open" );
-        addTab();
-    });
- 
-    // close icon: removing the tab on click
-    tabs.delegate( "span.ui-icon-close", "click", function() {
+	tabs.delegate( "span.ui-icon-close", "click", function() {
       var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
       $( "#" + panelId ).remove();
       tabs.tabs( "refresh" );
     });
- 
-    tabs.bind( "keyup", function( event ) {
-      if ( event.altKey && event.keyCode === $.ui.keyCode.BACKSPACE ) {
-        var panelId = tabs.find( ".ui-tabs-active" ).remove().attr( "aria-controls" );
-        $( "#" + panelId ).remove();
-        tabs.tabs( "refresh" );
-      }
-    });
-  });
 
-
+});
 
 })(jQuery);
 
 
+function refreshtabs(){
+	var nc = jQuery.noConflict();
+	nc( ".lf-select" ).selectmenu();
+	nc("#tabs").tabs("refresh");
+}
   
-  </script>
+</script>
 
 <?php
 }
