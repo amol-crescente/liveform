@@ -1,6 +1,8 @@
 var appLiveForm = angular.module('appLiveForm', []);
 
 appLiveForm.controller('LiveForm_Ctrl', function($scope, $timeout) {
+
+	$scope.title_a = [];
     
 	/* Add Remove Tabs */
     $scope.lf_slides = [{id: 'ld_slide_0'}];
@@ -16,7 +18,10 @@ appLiveForm.controller('LiveForm_Ctrl', function($scope, $timeout) {
     };
     $scope.removelfSlide = function(item) {
     	console.log(item+'sd');
-      $scope.lf_slides.splice(item,1);
+        $scope.lf_slides.splice(item,1);
+        $timeout(function() {
+        	refreshtabs();
+    	}, 10);
     };  
 
 });

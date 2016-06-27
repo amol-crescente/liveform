@@ -35,14 +35,14 @@ function live_form_init(){
 ?>
 
 	<div ng-app="appLiveForm" ng-controller="LiveForm_Ctrl" class="wrap" id="liveform-wrap">
-		<h2>Welcome To My Plugin</h2>
+		<h2>Live Slider Form</h2>
 		<br />
 		<a id="add_tab" ng-click="addlfSlide()" href="javscript:">Add New</a>
 		<div id="tabs">
 		  <ul>
 		    <!--<li><a href="#tabs-1">Slide 1</a> <span class="ui-icon ui-icon-close" role="presentation">Remove Tab</span></li> -->		    
 		    <li data-ng-repeat="(key,val) in lf_slides" role="tab">
-		    	<a href="#tabs-{{key+1}}" class="ui-tabs-anchor" role="presentation">Slide {{key+1}}</a> <a class="ui-icon ui-icon-close" ng-click="removelfSlide({{key}})">Remove Tab</a>
+		    	<a href="#tabs-{{key+1}}" class="ui-tabs-anchor" role="presentation">Slide {{key+1}}</a> <span class="ui-icon ui-icon-close" ng-click="removelfSlide(key)">Remove Tab</span>
 		    </li>
 
 		    
@@ -61,13 +61,13 @@ function live_form_init(){
 					    </select>
 			        </p>
 			        <div id="lf-view">
-			        		<div id="lf-view-sec-a">Section A -Title</div>
+			        		<div id="lf-view-sec-a"><span ng-hide="title_a[key]">Section A -Title</span><span ng-Show="title_a[key]">{{title_a[key]}}</span></div>
 			        		<div id="lf-view-sec-b"><h2>Section B</h2></div>
 			        		<div id="lf-view-sec-c"><h2>Section C</h2></div>
 			        </div>
 			        <p>
 			            <label><strong>2. Select Slide Title - A</strong></label><br/>
-			           	<input type="text" />
+			           	<input type="text" ng-model="title_a[key]" />
 			        </p>
 			        <p>
 			            <label for="lf-content-b"><strong>3. Select Slide Content - B</strong></label><br/>
@@ -135,11 +135,11 @@ $(function() {
 	var tabs = $( "#tabs" ).tabs();
 	$( "#add_tab" ).button();
 
-	tabs.delegate( "span.ui-icon-close", "click", function() {
+	/*tabs.delegate( "span.ui-icon-close", "click", function() {
       var panelId = $( this ).closest( "li" ).remove().attr( "aria-controls" );
       $( "#" + panelId ).remove();
       tabs.tabs( "refresh" );
-    });
+    });*/
 
 });
 
