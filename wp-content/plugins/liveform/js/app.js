@@ -2,7 +2,8 @@ var appLiveForm = angular.module('appLiveForm', []);
 
 appLiveForm.controller('LiveForm_Ctrl', function($scope, $timeout) {
 
-	$scope.title_a = [];
+	$scope.title_a = []; $scope.lf_layout = []; $scope.slide_bg_chk = []; $scope.slide_bg =[]; 
+	$scope.lf_content_b = []; $scope.lf_b_txt =[]; $scope.lf_content_c = []; $scope.lf_c_txt =[];
     
 	/* Add Remove Tabs */
     $scope.lf_slides = [{id: 'ld_slide_0'}];
