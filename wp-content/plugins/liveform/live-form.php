@@ -17,7 +17,7 @@ function liveform_init() {
 }
 add_action( 'admin_menu', 'liveform_init' );
 
-function admin_register_head() {
+/*function admin_register_head() {
     $siteurl = get_option('siteurl');
     $cssurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/css/style.css';
     $angurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/js/angular.min.js';
@@ -27,7 +27,25 @@ function admin_register_head() {
     echo "<script type='text/javascript' src='$angurl'></script>\n";
     echo "<script type='text/javascript' src='$appjsurl'></script>\n";
 }
-add_action('admin_head', 'admin_register_head');
+add_action('admin_head', 'admin_register_head');*/
+
+function load_liveform_files() {
+		$pluginURL = get_option('siteurl'). '/wp-content/plugins/' . basename(dirname(__FILE__));
+
+        wp_enqueue_style( 'liveform_style', $pluginURL . '/css/style.css', false, '1.0.0' );
+
+        $handle = 'angular.min.js';
+	    $list = 'queue';
+	    if (wp_script_is( $handle, $list )) {
+	       wp_enqueue_script( 'liveform_app_script', $pluginURL . '/js/app.js' );	
+	       return;
+	    } else {
+	       wp_enqueue_script( 'angular.min.js', $pluginURL . '/js/angular.min.js' );
+	       wp_enqueue_script( 'liveform_app_script', $pluginURL . '/js/app.js' );
+	    }
+        
+}
+add_action( 'admin_enqueue_scripts', 'load_liveform_files' );
 
 
 

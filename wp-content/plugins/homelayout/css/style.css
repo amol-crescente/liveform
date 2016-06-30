@@ -1,0 +1,19 @@
+
+#homelayout-content{ padding: 30px 20px;background: #fff; max-width: 600px; border: solid 1px #ddd;}
+
+#homelayout-content .form-group{margin-bottom: 15px;}
+#homelayout-content .form-group label{ display: block; margin-bottom: 5px; font-size: 16px; font-weight: bold; margin-bottom: 13px;} 
+#homelayout-content .form-group select{width: 315px;}
+
+#homelayout-content .text-center{text-align: center;}
+#homelayout-content .col-wrap{padding: 0;}
+#homelayout-content .col-wrap:after{ content: ""; display: block; clear: both;  }
+#homelayout-content .col3{ width: 32%; float: left; min-height: 300px; }
+#homelayout-content .button{background: #457ca9;box-shadow: none;border: none;color: #fff;width: auto;text-align: center;}
+#homelayout-content .layout-img{width: 100%; margin-bottom: 30px;}
+
+#layout-A {margin-bottom: 30px; color: #fff; font-size: 20px;}
+#layout-A .sec-a{ min-height: 170px; line-height: 170px; background-color: #457ca9; margin-bottom: 15px;}
+#layout-A .sec-b{ min-height: 150px; line-height: 150px; background-color: #bc9839;margin-right: 12px;}
+#layout-A .sec-c{ min-height: 150px; line-height: 150px; background-color: #bc9839;margin-right: 12px;}
+#layout-A .sec-d{ min-height: 150px; line-height: 150px; background-color: #bc9839;}
