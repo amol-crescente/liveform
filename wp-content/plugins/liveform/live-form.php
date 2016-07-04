@@ -27,7 +27,6 @@ add_action( 'admin_menu', 'liveform_init' );
     echo "<script type='text/javascript' src='$angurl'></script>\n";
     echo "<script type='text/javascript' src='$appjsurl'></script>\n";
 }
-
 add_action('admin_head', 'admin_register_head');*/
 
 function load_liveform_files() {
