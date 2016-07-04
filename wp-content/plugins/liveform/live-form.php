@@ -24,7 +24,7 @@ add_action( 'admin_menu', 'liveform_init' );
     $appjsurl = $siteurl . '/wp-content/plugins/' . basename(dirname(__FILE__)) . '/js/app.js';
     echo "<link rel='stylesheet' type='text/css' href='$cssurl' />\n";
 
-    echo "<script type='text/javascript' src='$angurl'></script>\n";
+    echo "<script type='text/javascript' src='$angurl'></script>\n\n\n";
     echo "<script type='text/javascript' src='$appjsurl'></script>\n";
 }
 
