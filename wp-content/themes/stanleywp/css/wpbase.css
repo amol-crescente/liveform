@@ -5,7 +5,7 @@ cite, em, dfn { font-style: italic; }
 
 code, kbd, samp, pre, tt, var { font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important; font-style: normal; }
 
-strong { font-weight: 700; }
+strong { font-weight: 900; }
 
 pre {
 	background: #fff;
